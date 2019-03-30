@@ -11,8 +11,9 @@ class Item(Resource):
         for item in items:
             if item['name'] == name:
                 return item
-        return {'item': None}
-    def pos(self, name):
+        return {'item': None}, 404
+
+    def post(self, name):
         item = {'name': name, 'price': 12.00}
         items.append(item)
         return item, 201
