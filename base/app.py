@@ -27,7 +27,7 @@ def home():
 
 
 # POST /store data: {name:}
-@app.route('/store', methods=['POST'])
+@app.route('/store', methods=['POST']) #decorator
 def create_store():
     request_data = request.get_json()
     new_store = {
