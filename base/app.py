@@ -4,7 +4,7 @@ from flask import Flask, jsonify, request, render_template
 app = Flask(__name__) #objec of flask with unique name
 
 
-stores = [
+stores = [ # JSON dictionary
     {
         'name': 'My wonderful Store',
         'items': [
@@ -28,14 +28,14 @@ def home(): #method
 
 # POST /store data: {name:}
 @app.route('/store', methods=['POST']) #decorator
-def create_store():
-    request_data = request.get_json()
-    new_store = {
+def create_store(): #fyction
+    request_data = request.get_json() #create request with send json data
+    new_store = { #create new store, which is gonna be dictionary
         'name': request_data['name'],
         'items': []
     }
     stores.append(new_store)
-    return jsonify(new_store)
+    return jsonify(new_store) #convert the stores variable into  json
 
 
 #GET /store/<string:name>
@@ -44,13 +44,13 @@ def get_store(name):
     for store in stores:
         if store['name'] == name:
             return jsonify(store)
-    return jsonify({'massage': 'store not found'})
+    return jsonify({'massage': 'store not found'}) #convert the stores variable into  json
 
 
 #GET /store
 @app.route('/store')
 def get_stores():
-    return jsonify({'stores': stores})
+    return jsonify({'stores': stores}) #convert the stores variable into json: and take json from stores
 
 
 #POST /store/<string:name>/item {name:, price}
@@ -65,7 +65,7 @@ def create_item_in_store(name):
             }
             store['items'].append(new_item)
             return jsonify(new_item)
-    return jsonify({'massage': 'store not found'})
+    return jsonify({'massage': 'store not found'}) #convert the stores variable into  json
 
 
 #GET /store/<string:name>/item
@@ -74,7 +74,7 @@ def get_item_in_store(name):
     for store in stores:
         if store['name'] == name:
             return jsonify({'items': store['items']})
-    return jsonify({'massage': 'store not found'})
+    return jsonify({'massage': 'store not found'}) #convert the stores variable into  json
 
 
 app.run(port=8400) #run the app with specific port
