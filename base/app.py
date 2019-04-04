@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, render_template
 
 
-app = Flask(__name__)
+app = Flask(__name__) #objec of flask with unique name
 
 
 stores = [
@@ -17,8 +17,8 @@ stores = [
 ]
 
 
-@app.route('/')
-def home():
+@app.route('/') # create route as decorator
+def home(): #method
     return render_template('index.html')
 
 
@@ -77,4 +77,4 @@ def get_item_in_store(name):
     return jsonify({'massage': 'store not found'})
 
 
-app.run(port=8400)
+app.run(port=8400) #run the app with specific port
