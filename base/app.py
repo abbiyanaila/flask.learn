@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template #add some library from flask
 
 
 app = Flask(__name__) #objec of flask with unique name
