@@ -8,20 +8,21 @@ app = Flask(__name__) #special python variable, unique name
 app.secret_key = 'qwerty'
 api = Api(app)
 
-jwt = JWT(app, authenticate, identity)
+jwt = JWT(app, authenticate, identity) # /aut   h , we send username and password, and JWT extension gets that username
+# and password
 
 items = [] #list items
 
 
 class Item(Resource): #every resource has to be a class
-    # parser = reqparse.RequestParser()
-    # parser.add_argument('price',
-    #                     type=float,
-    #                     required=True,
-    #                     help="this field cannot be left blank !"
-    #                     )
+    parser = reqparse.RequestParser()
+    parser.add_argument('price',
+                        type=float,
+                        required=True,
+                        help="this field cannot be left blank !"
+                        )
 
-    @jwt_required
+    @jwt_required()
     def get(self, name):
         item = next(filter(lambda x: x['name'] == name, items), None) #The function filter(function, list) offers an
         # elegant way to filter out all the elements of a list, for which the function function returns True.
@@ -37,27 +38,27 @@ class Item(Resource): #every resource has to be a class
 
         data = Item.parser.parse_args()
 
-        data = request.get_json() #request data with json file
+        # data = request.get_json() #request data with json file
         item = {'name': name, 'price': data['price']}
         items.append(item)
         return item, 201 #information for data was create or not
 
-    # def delete(self, name):
-    #     global items
-    #     items = list(filter(lambda x: x['name'] != name, items))
-    #     return {'massage': 'Item delete'}
+    def delete(self, name):
+        global items
+        items = list(filter(lambda x: x['name'] != name, items))
+        return {'massage': 'Item delete'}
     #
-    # def put(self, name):
-    #
-    #     data = Item.parser.parse_args()
-    #
-    #     item = next(filter(lambda x: x['name'] == name, items), None)
-    #     if item is None:
-    #         item = {'name': name, 'price': data['price']}
-    #         items.append(item)
-    #     else:
-    #         item.update(data)
-    #     return item
+    def put(self, name):
+        # data = request.get_json()
+        data = Item.parser.parse_args()
+
+        item = next(filter(lambda x: x['name'] == name, items), None)
+        if item is None:
+            item = {'name': name, 'price': data['price']}
+            items.append(item)
+        else:
+            item.update(data)
+        return item
 
 class ItemList(Resource):
     def get(self):
