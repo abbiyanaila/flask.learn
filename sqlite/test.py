@@ -1,11 +1,11 @@
 import sqlite3 #import library
 
-connection = sqlite3.connect('data.db')
+connection = sqlite3.connect('data.db') #initialise the connection, for url
 
-cursor = connection.cursor()
+cursor = connection.cursor() #allow to select and start things, cursor (run query and store the result)
 
-create_table = "CREATE TABLE users (id int, username text, password text)"
-cursor.execute(create_table)
+create_table = "CREATE TABLE users (id int, username text, password text)" # create table
+cursor.execute(create_table) #run query create_table
 
 user = (1, ' desi', 'qwerty')
 insert_query = "INSERT INTO users VALUES (?, ?, ?)"
